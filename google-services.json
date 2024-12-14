@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "452365979819",
+    "project_id": "whispr-6f99a",
+    "storage_bucket": "whispr-6f99a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:452365979819:android:ef7f3f503e63dbdc07a7ee",
+        "android_client_info": {
+          "package_name": "com.whispr.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "452365979819-f66oct0tvd0nc935gmubm1k8v065kpm3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.whispr.app",
+            "certificate_hash": "f7064a6ccc2f73afa32a9131a02c11e146d5cc14"
+          }
+        },
+        {
+          "client_id": "452365979819-996eihsg85066hpkpejs1l3lij6tkkte.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBygW24l1U8KtG9tqdX0PzXHkOmL5AW8aw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "452365979819-996eihsg85066hpkpejs1l3lij6tkkte.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
