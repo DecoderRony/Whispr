@@ -1,11 +1,12 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Image, KeyboardAvoidingView, StyleSheet, View } from "react-native";
-import PhoneInput from "react-native-phone-number-input";
-import AuthButton from "../components/authButton";
+import ButtonComponent from "../components/authButton";
 import TextComponent from "../components/text";
-import { AUTH_BUTTON } from "../constants/constants";
+import { BUTTON } from "../constants/constants";
 import { googleSignIn } from "../services/authService";
-import { UserDetails } from "../types/types";
+import { MainStackParams, UserDetails } from "../types/types";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 
 const styles = StyleSheet.create({
   loginView: {
@@ -44,9 +45,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function LoginView() {
-  const [userDetails, setUserDetails] = useState<UserDetails>(); //state to hold user details
-
+export default function LoginScreen({
+  navigation,
+}: Readonly<{
+  navigation: StackNavigationProp<MainStackParams, "Login">;
+}>) {
   // method to authenticate user based on the selected auth provider
   const authenticate = async (authProvider: "google" | "fb") => {
     if (authProvider === "google") {
@@ -55,10 +58,12 @@ export default function LoginView() {
 
       const userDetails: UserDetails = {
         fullName: userObj.displayName,
+        countryCode: null,
         phoneNumber: userObj.phoneNumber,
+        dp: userObj.photoURL ?? "",
       };
 
-      setUserDetails(userDetails);
+      navigation.navigate("UserDetails", userDetails);
     } else if (authProvider === "fb") {
       //TODO: add implementation to sign in with facebook
     }
@@ -77,21 +82,21 @@ export default function LoginView() {
         <TextComponent variant="titleMedium">Start Whispr'ing</TextComponent>
 
         <View style={styles.buttonContainer}>
-          <AuthButton
+          <ButtonComponent
             onPress={() => authenticate("google")}
-            icon={AUTH_BUTTON.google.icon}
-            buttonColor={AUTH_BUTTON.google.color}
+            icon={BUTTON.google.icon}
+            buttonColor={BUTTON.google.color}
           >
             Continue with Google
-          </AuthButton>
+          </ButtonComponent>
 
-          <AuthButton
+          <ButtonComponent
             onPress={() => authenticate("fb")}
-            icon={AUTH_BUTTON.facebook.icon}
-            buttonColor={AUTH_BUTTON.facebook.color}
+            icon={BUTTON.facebook.icon}
+            buttonColor={BUTTON.facebook.color}
           >
             Continue with facebook
-          </AuthButton>
+          </ButtonComponent>
         </View>
       </KeyboardAvoidingView>
     </View>

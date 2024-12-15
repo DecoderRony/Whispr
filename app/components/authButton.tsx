@@ -1,25 +1,23 @@
 import { PropsWithChildren } from "react";
-import { ViewStyle, StyleSheet } from "react-native";
-import { Button } from "react-native-paper";
+import { ViewStyle, StyleSheet, StyleProp } from "react-native";
+import { Button, ButtonProps } from "react-native-paper";
 import { IconSource } from "react-native-paper/lib/typescript/components/Icon";
 
-type AuthButtonProps = {
-  icon?: IconSource;
-  buttonColor?: string;
-  onPress: () => void;
-};
+type AuthButtonProps = ButtonProps;
 
-const styles = StyleSheet.create({
+const defaultStyles = StyleSheet.create({
   buttonStyle: {
     borderRadius: 12,
   },
 });
 
-export default function AuthButton({
+export default function ButtonComponent({
   icon,
   buttonColor,
   onPress,
+  style,
   children,
+  ...rest
 }: Readonly<PropsWithChildren<AuthButtonProps>>) {
   return (
     <Button
@@ -27,7 +25,8 @@ export default function AuthButton({
       onPress={onPress}
       icon={icon}
       buttonColor={buttonColor}
-      style={styles.buttonStyle}
+      style={[defaultStyles.buttonStyle, style]}
+      {...rest}
     >
       {children}
     </Button>
