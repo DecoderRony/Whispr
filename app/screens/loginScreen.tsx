@@ -1,12 +1,10 @@
-import { useState } from "react";
+import { StackNavigationProp } from "@react-navigation/stack";
 import { Image, KeyboardAvoidingView, StyleSheet, View } from "react-native";
 import ButtonComponent from "../components/authButton";
 import TextComponent from "../components/text";
 import { BUTTON } from "../constants/constants";
 import { googleSignIn } from "../services/authService";
 import { MainStackParams, UserDetails } from "../types/types";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
 
 const styles = StyleSheet.create({
   loginView: {
@@ -57,9 +55,10 @@ export default function LoginScreen({
       const userObj = credentials.user;
 
       const userDetails: UserDetails = {
-        fullName: userObj.displayName,
-        countryCode: null,
-        phoneNumber: userObj.phoneNumber,
+        uid: userObj.uid,
+        fullName: userObj.displayName ?? "",
+        countryCode: "+91",
+        phoneNumber: userObj.phoneNumber ?? "",
         dp: userObj.photoURL ?? "",
       };
 

@@ -1,7 +1,8 @@
 export type UserDetails = {
-  fullName: string | null;
-  countryCode: string | null,
-  phoneNumber: string | null;
+  uid: string;
+  fullName: string;
+  countryCode: string,
+  phoneNumber: string;
   dp?: BlobPart | string;
   about?: string
 };

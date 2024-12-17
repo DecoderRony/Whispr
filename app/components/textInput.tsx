@@ -1,5 +1,3 @@
-import { Noop } from "react-hook-form";
-import { StyleProp, TextStyle } from "react-native";
 import { TextInput, TextInputProps } from "react-native-paper";
 
 type TextInputComponentProps = TextInputProps;
