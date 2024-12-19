@@ -1,15 +1,16 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import { RouteProp } from "@react-navigation/native";
+import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
 import { Avatar, TextInput } from "react-native-paper";
+import * as Yup from "yup";
 import ButtonComponent from "../components/authButton";
+import TextComponent from "../components/text";
 import TextInputComponent from "../components/textInput";
 import { BUTTON } from "../constants/constants";
+import { createNewUser, getUser } from "../services/userService";
 import { MainStackParams, UserDetails } from "../types/types";
-import TextComponent from "../components/text";
-import * as Yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { createNewUser } from "../services/userService";
 
 type UserDetailsScreenProps = {
   route: RouteProp<MainStackParams, "UserDetails">;
@@ -60,15 +61,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const onSubmit = async (user: UserDetails) => {
-  const updatedUserDetails: Omit<UserDetails, "countryCode"> = {
-    uid: user.uid,
-    fullName: user.fullName,
-    dp: user.dp,
-    about: user.about ?? "",
-    phoneNumber: user.countryCode + user.phoneNumber,
-  };
-  await createNewUser(updatedUserDetails);
+const onSubmit = async (updatedUser: UserDetails, oldUser: UserDetails) => {
+  const user: UserDetails = {
+    ...oldUser,
+    ...updatedUser,
+  }; // updated user only contains properties that are provided as form input like name, about, phone. it doesn't contain uid that is needed to create/update the user in db.
+  await createNewUser(user);
 };
 
 // form input schema
@@ -78,8 +76,6 @@ const userDetailsInputValidationSchema = Yup.object().shape({
   phoneNumber: Yup.string().required("Phone number is required"),
   dp: Yup.mixed(),
   about: Yup.string(),
-  countryCode: Yup.string().required(),
-  uid: Yup.string().required("User ID is required"),
 });
 
 export default function UserDetailsScreen({
@@ -89,10 +85,24 @@ export default function UserDetailsScreen({
     control,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     resolver: yupResolver(userDetailsInputValidationSchema),
     defaultValues: route.params,
   });
+
+  useEffect(() => {
+    getUser(route.params.uid).then((user) => {
+      if (user) {
+        reset(
+          {
+            ...user,
+          },
+          { keepDirtyValues: true, keepIsSubmitted: true, keepTouched: true }
+        );
+      }
+    });
+  }, [route.params.uid]);
 
   return (
     <View style={styles.rootContainer}>
@@ -165,7 +175,9 @@ export default function UserDetailsScreen({
 
       <View>
         <ButtonComponent
-          onPress={handleSubmit(onSubmit)}
+          onPress={handleSubmit((data) =>
+            onSubmit(data as UserDetails, route.params)
+          )}
           buttonColor={BUTTON.google.color}
           style={{ width: "100%" }}
         >
