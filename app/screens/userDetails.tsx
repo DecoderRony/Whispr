@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
 const onSubmit = async (user: UserDetails) => {
   const updatedUserDetails: Omit<UserDetails, "countryCode"> = {
     uid: user.uid,
-    fullName: user.phoneNumber,
+    fullName: user.fullName,
     dp: user.dp,
     about: user.about ?? "",
     phoneNumber: user.countryCode + user.phoneNumber,
@@ -71,6 +71,8 @@ const onSubmit = async (user: UserDetails) => {
   await createNewUser(updatedUserDetails);
 };
 
+// form input schema
+// used to validate the inputs provided
 const userDetailsInputValidationSchema = Yup.object().shape({
   fullName: Yup.string().required("Name is required"),
   phoneNumber: Yup.string().required("Phone number is required"),
