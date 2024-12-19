@@ -92,16 +92,18 @@ export default function UserDetailsScreen({
   });
 
   useEffect(() => {
+    let isMounted = true;
+
     getUser(route.params.uid).then((user) => {
-      if (user) {
-        reset(
-          {
-            ...user,
-          },
-          { keepDirtyValues: true, keepIsSubmitted: true, keepTouched: true }
-        );
+      if (isMounted && user) {
+        reset(user);
       }
     });
+
+    // clean up mechanism to handle case such that if this screen is unmounted before getUser resolves then we dont want to update the value
+    return () => {
+      isMounted = false;
+    };
   }, [route.params.uid]);
 
   return (
