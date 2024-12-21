@@ -18,6 +18,9 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "permissions": [
+        "android.permission.READ_CONTACTS"
+      ],
       "package": "com.whispr.app",
       "googleServicesFile": "./google-services.json"
     },
