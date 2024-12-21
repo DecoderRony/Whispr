@@ -1,7 +1,5 @@
 import { TextInput, TextInputProps } from "react-native-paper";
 
-type TextInputComponentProps = TextInputProps;
-
 export default function TextInputComponent({
   label,
   value,
@@ -9,7 +7,7 @@ export default function TextInputComponent({
   onBlur,
   style,
   ...rest
-}: Readonly<TextInputComponentProps>) {
+}: Readonly<TextInputProps>) {
   return (
     <TextInput
       label={label}
