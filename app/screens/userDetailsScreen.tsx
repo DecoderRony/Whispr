@@ -1,17 +1,13 @@
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
 import { Avatar, TextInput } from "react-native-paper";
-import * as Yup from "yup";
 import ButtonComponent from "../components/authButton";
 import ErrorComponent from "../components/error";
-import TextInputComponent from "../components/textInput";
-import { BUTTON } from "../constants/constants";
-import { createNewUser, getUser } from "../services/userService";
-import { NavigationsProps, UserDetails } from "../types/types";
 import FormInputComponent from "../components/formInput";
+import { BUTTON } from "../constants/constants";
 import useUserDetailsForm from "../hooks/useUserDetailsForm";
+import { createNewUser } from "../services/userService";
+import { NavigationsProps, UserDetails } from "../types/types";
 
 const styles = StyleSheet.create({
   rootContainer: {
@@ -85,7 +81,7 @@ export default function UserDetailsScreen({
         />
 
         <FormInputComponent
-          controllerProps={{ name: "fullName" }}
+          controllerProps={{ name: "fullName", control: control }}
           textComponentProps={{ label: "Name" }}
           fieldError={
             errors.fullName && (
@@ -95,12 +91,12 @@ export default function UserDetailsScreen({
         />
 
         <FormInputComponent
-          controllerProps={{ name: "about" }}
+          controllerProps={{ name: "about", control: control }}
           textComponentProps={{ label: "About" }}
         />
 
         <FormInputComponent
-          controllerProps={{ name: "phoneNumber" }}
+          controllerProps={{ name: "phoneNumber", control: control }}
           textComponentProps={{
             label: "Phone",
             inputMode: "numeric",

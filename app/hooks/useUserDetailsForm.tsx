@@ -33,7 +33,7 @@ const useUserDetailsForm = (defaultValues: UserDetails) => {
     return () => {
       isMounted = false;
     };
-  }, [defaultValues.uid]);
+  }, [defaultValues.uid, reset]);
 
   return { control, handleSubmit, formState, reset };
 };
